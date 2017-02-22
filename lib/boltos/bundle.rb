@@ -1,11 +1,18 @@
 class Boltos::Bundle
   attr_reader :name
 
-  def self.create(name, api = nil)
-    api    ||= Boltos::API.new
-    response = api.create_bundle name
+  def self.all(api = Boltos::API.new)
+    api.get("bundles").collect { |hash| new hash['name'], api }
+  end
+
+  def self.create(name, api = Boltos::API.new)
+    api.create_bundle name
 
     new name, api
+  end
+
+  def self.find_or_create(name, api = Boltos::API.new)
+    all(api).detect { |bundle| bundle.name == name } || create(name, api)
   end
 
   def initialize(name, api = nil)

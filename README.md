@@ -18,6 +18,12 @@ bundle.variables #=> {"SECRET_KEY" => "SECRET_VALUE"}
 
 # Create a new bundle
 bundle = Boltos::Bundle.create 'secrets'
+
+# Find or create
+bundle = Boltos::Bundle.find_or_create 'secrets'
+
+# Get all bundles
+Boltos::Bundle.all
 ```
 
 ## Contributing
