@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Boltos::API
-  DOMAIN   = 'https://api.voltos.io'
-  VERSION  = 'v1'
+  DOMAIN   = "https://api.voltos.io"
+  VERSION  = "v1"
   ENDPOINT = "#{DOMAIN}/#{VERSION}"
 
   def get(path)
@@ -16,17 +18,20 @@ class Boltos::API
   end
 
   def create_bundle(name)
-    JSON.parse connection.post("#{VERSION}/bundles", {
-      :name       => name,
-      :token_name => 'boltos'
-    }).body
+    JSON.parse(
+      connection.post(
+        "#{VERSION}/bundles",
+        :name       => name,
+        :token_name => "boltos"
+      ).body
+    )
   end
 
   private
 
   def configuration
     @configuration ||= JSON.parse(
-      File.read(File.expand_path('~/.voltos/config.json'))
+      File.read(File.expand_path("~/.voltos/config.json"))
     )
   end
 
@@ -35,12 +40,12 @@ class Boltos::API
       faraday.request :url_encoded
       faraday.adapter Faraday.default_adapter
 
-      faraday.headers['User-Agent']    = "boltos/#{Boltos::VERSION}"
-      faraday.headers['Authorization'] = "Token token=#{token}"
+      faraday.headers["User-Agent"]    = "boltos/#{Boltos::VERSION}"
+      faraday.headers["Authorization"] = "Token token=#{token}"
     end
   end
 
   def token
-    configuration['auths']["#{ENDPOINT}"]['auth']
+    configuration["auths"][ENDPOINT]["auth"]
   end
 end

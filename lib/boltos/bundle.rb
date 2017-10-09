@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class Boltos::Bundle
   attr_reader :name
 
   def self.all(api = Boltos::API.new)
-    api.get("bundles").collect { |hash| new hash['name'], api }
+    api.get("bundles").collect { |hash| new hash["name"], api }
   end
 
   def self.create(name, api = Boltos::API.new)
